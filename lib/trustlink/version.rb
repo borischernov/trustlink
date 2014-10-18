@@ -1,3 +1,3 @@
-module TrustLink
+module Trustlink
   VERSION = "0.0.1"
 end
