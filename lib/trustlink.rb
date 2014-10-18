@@ -9,12 +9,12 @@ module Trustlink
         cfg = File.join(Rails.root, 'config', 'trustlink.yml')
         File.exists?(cfg) ? YAML.load(File.read(cfg)) : nil
       end
-      return nil unless self.config
+      return nil unless self.config && self.config[Rails.env]
       
-      opts = config['options'] || {}
+      opts = config[Rails.env]['options'] || {}
       opts.merge!(extra_options)
       opts[:template_path] ||= File.absolute_path(File.join(File.dirname(__FILE__),'..','template','template.tpl.html'))
-      TlClient.new(config['user_id'], request, opts)
+      TlClient.new(config[Rails.env]['user_id'], request, opts)
     end
     
   end
