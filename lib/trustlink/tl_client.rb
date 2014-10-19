@@ -84,8 +84,8 @@ module Trustlink
 
 
     def load_links
-        links_db_file = self.class.app_folder+'/'+self.class.data_folder+self.class.tl_user+'/trustlink.links.db'
-        links_db_file = self.class.app_folder+'/'+self.class.data_folder+self.class.tl_user+'/trustlink.'+self.class.host+'.links.db' if self.class.multi_site
+        links_db_file = self.class.multi_site ? File.join(self.class.app_folder, self.class.data_folder, self.class.tl_user, '/trustlink.'+self.class.host+'.links.db') 
+                                              : File.join(self.class.app_folder, self.class.data_folder, self.class.tl_user, '/trustlink.links.db')
 
         if !File.exist?(links_db_file)
             dir = File.dirname(links_db_file)
