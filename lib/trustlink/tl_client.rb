@@ -17,7 +17,7 @@ module Trustlink
 
     class << self; attr_accessor :app_folder, :data_folder, :data, :charset, :host, :force_show_code, :multi_site, :is_static, :tl_user, :verbose, :test, :template_path end
 
-    @app_folder        = defined?(RAILS_ROOT) ? RAILS_ROOT : Rails.root
+    @app_folder        = nil
     @data_folder       = 'public/'
     @data              = ''
     @charset           = 'UTF-8'
@@ -37,6 +37,7 @@ module Trustlink
         host = nil
         self.request=request
         self.class.tl_user=user
+        self.class.app_folder ||= Rails.root
         
         self.raise_error("User is not defined") && return if self.class.tl_user.blank?
         self.raise_error("Request env is not provided") && return if self.request.blank?
