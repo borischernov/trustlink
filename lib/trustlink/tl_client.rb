@@ -54,7 +54,7 @@ module Trustlink
 
         self.class.is_static = options[:is_static].present?
 
-        self.request_uri = options[:request_uri].present? ? options[:request_uri] : (self.request.fullpath.split("?")[0] rescue nil)
+        self.request_uri = options[:request_uri].present? ? options[:request_uri] : (self.request.fullpath rescue nil)
         self.request_uri = self.request_uri.gsub(/\?.*$/, '').gsub(/\/+/, '/') if self.class.is_static && self.request_uri.present?
 
 
