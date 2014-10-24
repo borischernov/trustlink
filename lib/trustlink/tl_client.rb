@@ -54,7 +54,7 @@ module Trustlink
 
         self.class.is_static = options[:is_static].present?
 
-        self.request_uri = options[:request_uri].present? ? options[:request_uri] : (self.request.fullpath rescue nil)
+        self.request_uri = options[:request_uri].present? ? options[:request_uri] : (self.request.fullpath.gsub(/%[\da-z]{2}/, &:upcase) rescue nil)
         self.request_uri = self.request_uri.gsub(/\?.*$/, '').gsub(/\/+/, '/') if self.class.is_static && self.request_uri.present?
 
 
@@ -202,7 +202,7 @@ module Trustlink
               host=parsed_host.sub('www.','').downcase
               tmp_block = block.sub("<{host}>", host)
               if link['anchor'].blank?
-                  tmp_block.sub!(/\<\{head_block\}\>(.+)\<\{\/head_block\}\>/is, "")
+                  tmp_block.sub!(/\<\{head_block\}\>(.+)\<\{\/head_block\}\>/i, "")
               else
                   href = link['punicode_url'].blank? ? link['url'] : link['punicode_url']
                   tmp_block.sub!("<{link}>", '<a href="'+href+'">'+link['anchor']+'</a>')
