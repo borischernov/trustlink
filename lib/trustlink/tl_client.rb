@@ -253,17 +253,11 @@ module Trustlink
 
 
     def fetch_remote_file host, path
-        user_agent = 'Trustlink Client RoR ' + VERSION
-        resp=Net::HTTP.start(host) { |http|         
-        http.get(path)
-        }
-        if resp.body
-          resp.body
-        else
-          self.raise_error("Cann't connect to server: "+host+path)
-        end
+      user_agent = 'Trustlink Client RoR ' + VERSION
+      resp = Net::HTTP.start(host) { |http|  http.get(path) } rescue nil
+      self.raise_error("Cann't connect to server: "+host+path) unless resp && resp.body
+      resp.body
     end
-
 
     def read filename
       Marshal.load(read_raw filename)
