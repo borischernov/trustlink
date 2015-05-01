@@ -139,15 +139,11 @@ module Trustlink
 
         self.file_change_date = File.mtime(links_db_file)
         self.file_size = self.links.size
-        self.links_page = []
 
-        if self.class.test
-        	TEST_COUNT.times do
-				    self.links_page << self.links['__test_tl_link__']
-          end
+        self.links_page = if self.class.test
+  		    [self.links['__test_tl_link__']] * TEST_COUNT
 		    else
-          self.links_page = self.links[self.request_uri]
-          self.links_page = [] if self.links_page.blank?
+          (self.links[self.request_uri] || []) + (self.links[self.request_uri + '/'] || []) 
 		    end
 
         self.links_count = self.links_page.size    
